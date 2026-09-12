@@ -130,20 +130,41 @@
             resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
 
             setTimeout(() => {
-                let summary = "";
                 const lowerText = text.toLowerCase();
-                
-                if (lowerText.includes("חאקי") || lowerText.includes("אניגמה") || lowerText.includes("שכבג") || lowerText.includes("מדריכים")) {
-                    summary = "חייב חאקי ארוך\nלהגיע בזמן ובלי איחורים";
-                } else if (lowerText.includes("שעה") || lowerText.includes("ב-") || lowerText.includes("להגיע") || lowerText.includes("מתי")) {
-                    summary = "להגיע בזמן שנקבע, בלי תירוצים ובלי לאחר.";
-                } else if (lowerText.includes("כסף") || lowerText.includes("אישור") || lowerText.includes("טופס")) {
-                    summary = "לשלוח אישורים / כסף לפני הדד-ליין.";
-                } else {
-                    summary = "שורה תחתונה: לעשות מה שמבקשים ולהגיע בזמן בלי חפירות מיותרות.";
+                let summaryLines = [];
+
+                // זיהוי ספציפי של דרישות בגדים / ציוד
+                if (lowerText.includes("חאקי ארוך")) {
+                    summaryLines.push("• להגיע עם חאקי ארוך בלבד");
+                } else if (lowerText.includes("חאקי")) {
+                    summaryLines.push("• להגיע עם חאקי");
                 }
 
-                resultArea.innerText = summary;
+                if (lowerText.includes("אניגמה")) {
+                    summaryLines.push("• לעבור באניגמה לקחת ציוד");
+                }
+
+                if (lowerText.includes("איחור") || lowerText.includes("מאחר") || lowerText.includes("בלי איחורים")) {
+                    summaryLines.push("• הגעה בזמן מדויק - בלי איחורים");
+                }
+
+                // זיהוי שעות אם קיימות בהודעה (למשל מספרים או שעות כמו 16:50)
+                const timeMatch = text.match(/([0-9]{1,2}[:.][0-9]{2})/);
+                if (timeMatch) {
+                    summaryLines.push(`• להגיע בשעה ${timeMatch[1]}`);
+                }
+
+                // זיהוי טפסים / כסף / אישורים
+                if (lowerText.includes("אישור") || lowerText.includes("טופס") || lowerText.includes("כסף") || lowerText.includes("תשלום")) {
+                    summaryLines.push("• לחתום על אישורים / להעביר תשלום בדד-ליין");
+                }
+
+                // אם לא נמצאו דפוסים ספציפיים, ניקח חלק מרכזי מההודעה ונציג בצורה נקייה
+                if (summaryLines.length === 0) {
+                    summaryLines.push(`• השורה התחתונה: ${text.substring(0, 70)}...`);
+                }
+
+                resultArea.innerText = summaryLines.join("\n");
                 resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-100 whitespace-pre-wrap leading-relaxed text-base text-right justify-start';
                 
                 btn.disabled = false;
