@@ -130,7 +130,8 @@
             resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
 
             const apiKey = "AQ.Ab8RN6LcA0FP2hkW0tePqr2axVmrnjeJ_rmgSQE01geEbeM5ZQ";
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash:generateContent?key=${apiKey}`;
+            // משתמשים במודל הסטנדרטי והיציב gemini-1.5-flash שתומך במפתח API ישיר
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
             const systemPrompt = `אתה "נחום Translate" - כלי קצה אגרסיבי ומהיר שממיר הודעות ארוכות ומלאות בחפירות להודעה קצרה, ישירה וברורה בפורמט "תכל'ס" נטו. תן סיכום תכליתי בלבד.`;
 
