@@ -36,7 +36,7 @@
                 <h1 class="text-3xl font-black text-sky-400 mb-1 flex items-center gap-2">
                     <span>🤖</span> נחום Translate
                 </h1>
-                <p class="text-slate-400 text-sm">הדבק כאן הודעת נחום ארוכה, ותקבל את השורה התחתונה ב"תכל'ס"</p>
+                <p class="text-slate-400 text-sm">תכתוב הודעת נחום, ותקבל הודעה שמוח אנושי יכול להבין</p>
             </div>
         </div>
 
@@ -44,7 +44,7 @@
             <div>
                 <textarea 
                     id="userInput" 
-                    placeholder="הדבק לכאן את הודעת נחום הארוכה..."
+                    placeholder="שפת נחום"
                     class="w-full h-36 bg-slate-950/60 border border-slate-700 rounded-xl p-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition resize-none text-base"
                 ></textarea>
             </div>
@@ -54,7 +54,7 @@
                 id="translateBtn"
                 class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold py-3.5 px-6 rounded-xl transition duration-200 shadow-lg shadow-sky-500/20 active:scale-[0.99] cursor-pointer text-lg"
             >
-                תביא לי את התכל'ס
+                תרגום
             </button>
 
             <div class="mt-6 pt-4 border-t border-slate-800">
@@ -63,7 +63,7 @@
                     id="resultArea" 
                     class="w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center"
                 >
-                    התשובה תופיע כאן...
+                    שפה נורמלית
                 </div>
             </div>
         </div>
@@ -119,35 +119,36 @@
             const btn = document.getElementById('translateBtn');
 
             if (!text) {
-                resultArea.innerText = 'נא להדביק הודעה תחילה.';
+                resultArea.innerText = 'נא להכניס טקסט תחילה.';
                 resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
                 return;
             }
 
             btn.disabled = true;
-            btn.innerText = 'מנקה חפירות...';
-            resultArea.innerText = 'חושב...';
+            btn.innerText = 'מתרגם...';
+            resultArea.innerText = 'מפעיל מוח אנושי...';
             resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
 
             setTimeout(() => {
-                // לוגיקת ניתוח עצמאית שמזהה את עיקר הטקסט ומייצרת תכל'ס אגרסיבי
                 let summary = "";
-                const cleanText = text.replace(/[\n\r]+/g, ' ').trim();
+                const lowerText = text.toLowerCase();
                 
-                if (cleanText.includes("?") || cleanText.includes("האם") || cleanText.includes("מתי") || cleanText.includes("איפה")) {
-                    summary = `תכל'ס: שואלים אותך ${cleanText.substring(0, 60)}... תענה כבר וזהו, חבל על החפירות.`;
-                } else if (cleanText.length > 100) {
-                    summary = `תכל'ס: חפרו פה על: "${cleanText.substring(0, 50)}...". השורה התחתונה היא פשוט שיחקו אותה ראש קטן או שרוצים ממך משהו בדחיפות. אין מה להתרגש.`;
+                if (lowerText.includes("חאקי") || lowerText.includes("אניגמה") || lowerText.includes("שכבג") || lowerText.includes("מדריכים")) {
+                    summary = "חייב חאקי ארוך\nלהגיע בזמן ובלי איחורים";
+                } else if (lowerText.includes("שעה") || lowerText.includes("ב-") || lowerText.includes("להגיע") || lowerText.includes("מתי")) {
+                    summary = "להגיע בזמן שנקבע, בלי תירוצים ובלי לאחר.";
+                } else if (lowerText.includes("כסף") || lowerText.includes("אישור") || lowerText.includes("טופס")) {
+                    summary = "לשלוח אישורים / כסף לפני הדד-ליין.";
                 } else {
-                    summary = `תכל'ס: ${cleanText} (בקיצור ולעניין, בלי דרמות מיותרות).`;
+                    summary = "שורה תחתונה: לעשות מה שמבקשים ולהגיע בזמן בלי חפירות מיותרות.";
                 }
 
                 resultArea.innerText = summary;
                 resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-100 whitespace-pre-wrap leading-relaxed text-base text-right justify-start';
                 
                 btn.disabled = false;
-                btn.innerText = "תביא לי את התכל'ס";
-            }, 800);
+                btn.innerText = "תרגום";
+            }, 600);
         }
     </script>
 </body>
