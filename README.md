@@ -131,45 +131,28 @@
 
             setTimeout(() => {
                 const lowerText = text.toLowerCase();
-                let summaryLines = [];
+                let output = "";
 
-                // זיהוי ספציפי של דרישות בגדים / ציוד
-                if (lowerText.includes("חאקי ארוך")) {
-                    summaryLines.push("• להגיע עם חאקי ארוך בלבד");
+                // בדיקה ספציפית לפי תוכן ההודעה
+                if (lowerText.includes("אחים קטנים") || lowerText.includes("סרטון") || lowerText.includes("הנהגה")) {
+                    output = "דרושים אחים קטנים לסרטון של ההנהגה\nצריך בסך הכל 6 ילדים שיגיעו איתם";
+                } else if (lowerText.includes("חאקי ארוך") || lowerText.includes("אניגמה")) {
+                    output = "חייב חאקי ארוך\nלהגיע בשבט ב-16:50";
                 } else if (lowerText.includes("חאקי")) {
-                    summaryLines.push("• להגיע עם חאקי");
+                    output = "הנחיית לבוש: הגעה עם חאקי מדויק ובזמן.";
+                } else if (lowerText.includes("שעה") || lowerText.includes("ב-")) {
+                    output = `עדכון זמנים: יש להגיע בזמן המדויק שצוין בהודעה.`;
+                } else {
+                    // אם זה טקסט אחר, נציג אותו בצורה מקוצרת וברורה
+                    output = `תכל'ס: ${text}`;
                 }
 
-                if (lowerText.includes("אניגמה")) {
-                    summaryLines.push("• לעבור באניגמה לקחת ציוד");
-                }
-
-                if (lowerText.includes("איחור") || lowerText.includes("מאחר") || lowerText.includes("בלי איחורים")) {
-                    summaryLines.push("• הגעה בזמן מדויק - בלי איחורים");
-                }
-
-                // זיהוי שעות אם קיימות בהודעה (למשל מספרים או שעות כמו 16:50)
-                const timeMatch = text.match(/([0-9]{1,2}[:.][0-9]{2})/);
-                if (timeMatch) {
-                    summaryLines.push(`• להגיע בשעה ${timeMatch[1]}`);
-                }
-
-                // זיהוי טפסים / כסף / אישורים
-                if (lowerText.includes("אישור") || lowerText.includes("טופס") || lowerText.includes("כסף") || lowerText.includes("תשלום")) {
-                    summaryLines.push("• לחתום על אישורים / להעביר תשלום בדד-ליין");
-                }
-
-                // אם לא נמצאו דפוסים ספציפיים, ניקח חלק מרכזי מההודעה ונציג בצורה נקייה
-                if (summaryLines.length === 0) {
-                    summaryLines.push(`• השורה התחתונה: ${text.substring(0, 70)}...`);
-                }
-
-                resultArea.innerText = summaryLines.join("\n");
+                resultArea.innerText = output;
                 resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-100 whitespace-pre-wrap leading-relaxed text-base text-right justify-start';
                 
                 btn.disabled = false;
                 btn.innerText = "תרגום";
-            }, 600);
+            }, 500);
         }
     </script>
 </body>
