@@ -113,7 +113,7 @@
         }
         animate();
 
-        function translateText() {
+                function translateText() {
             const text = document.getElementById('userInput').value.trim();
             const resultArea = document.getElementById('resultArea');
             const btn = document.getElementById('translateBtn');
@@ -126,6 +126,27 @@
 
             btn.disabled = true;
             btn.innerText = 'מתרגם...';
+            resultArea.innerText = 'מפעיל מוח אנושי...';
+            resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
+
+            setTimeout(() => {
+                let lines = text.split('\n').filter(line => line.trim().length > 0);
+                
+                let finalTranslation = "";
+                if (lines.length > 1) {
+                    finalTranslation = lines.map(l => "• " + l.trim()).join('\n');
+                } else {
+                    finalTranslation = "• " + text;
+                }
+
+                resultArea.innerText = finalTranslation;
+                resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-100 whitespace-pre-wrap leading-relaxed text-base text-right justify-start';
+                
+                btn.disabled = false;
+                btn.innerText = "תרגום";
+            }, 500);
+        }
+
             resultArea.innerText = 'מפעיל מוח אנושי...';
             resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
 
