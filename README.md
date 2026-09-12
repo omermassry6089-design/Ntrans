@@ -130,24 +130,24 @@
             resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-amber-400 whitespace-pre-wrap leading-relaxed text-base flex items-center justify-center text-center';
 
             setTimeout(() => {
-                const lowerText = text.toLowerCase();
-                let output = "";
+                // מנקה את ההודעה מכל מיני מילות פתיחה מיותרות ומתמקד בעיקר
+                let cleaned = text
+                    .replace(/היוש|הי|הלו|תקשיבו|טוב אז ככה|חברים/g, '')
+                    .replace(/[!?,.]+/g, ' ')
+                    .trim();
 
-                // בדיקה ספציפית לפי תוכן ההודעה
-                if (lowerText.includes("אחים קטנים") || lowerText.includes("סרטון") || lowerText.includes("הנהגה")) {
-                    output = "דרושים אחים קטנים לסרטון של ההנהגה\nצריך בסך הכל 6 ילדים שיגיעו איתם";
-                } else if (lowerText.includes("חאקי ארוך") || lowerText.includes("אניגמה")) {
-                    output = "חייב חאקי ארוך\nלהגיע בשבט ב-16:50";
-                } else if (lowerText.includes("חאקי")) {
-                    output = "הנחיית לבוש: הגעה עם חאקי מדויק ובזמן.";
-                } else if (lowerText.includes("שעה") || lowerText.includes("ב-")) {
-                    output = `עדכון זמנים: יש להגיע בזמן המדויק שצוין בהודעה.`;
+                // פירוק למשפטים כדי למצוא את הדבר האמיתי שדורשים בהודעה
+                let lines = text.split('\n').filter(line => line.trim().length > 0);
+                
+                let finalTranslation = "";
+                if (lines.length > 1) {
+                    // אם יש כמה שורות, ניקח את השורה המשמעותית ביותר או נחבר קצר לעניין
+                    finalTranslation = lines.map(l => "• " + l.trim()).join('\n');
                 } else {
-                    // אם זה טקסט אחר, נציג אותו בצורה מקוצרת וברורה
-                    output = `תכל'ס: ${text}`;
+                    finalTranslation = "• " + text;
                 }
 
-                resultArea.innerText = output;
+                resultArea.innerText = finalTranslation;
                 resultArea.className = 'w-full min-h-[80px] bg-slate-950/80 border border-slate-800 rounded-xl p-4 text-slate-100 whitespace-pre-wrap leading-relaxed text-base text-right justify-start';
                 
                 btn.disabled = false;
